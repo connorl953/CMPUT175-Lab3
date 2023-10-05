@@ -115,18 +115,23 @@ class NumTicTacToe:
         # check if any column adds up to 15
         # check if either diagonal adds up to 15
 
-        if sum([self.board[i][i] for i in range(self.size)]) == 15:
+
+
+
+        if sum([self.board[i][i] for i in range(self.size)]) == 15 and 0 not in (self.board[i][i] for i in range(self.size)):
+            # checks if the sum of the diagonal from top left to bottom right is 15
             return True
 
-        if sum([self.board[i][self.size - i - 1] for i in range(self.size)]) == 15:
+        if sum([self.board[i][self.size - i - 1] for i in range(self.size)]) == 15 and 0 not in (self.board[i][self.size - i - 1] for i in range(self.size)):
+            # checks if the sum of the diagonal from top right to bottom left is 15
             return True
 
         for row in self.board:
-            if sum(row) == 15:
+            if sum(row) == 15 and 0 not in row:
                 return True
 
         for col in range(self.size):
-            if sum([self.board[row][col] for row in range(self.size)]) == 15:
+            if sum([self.board[row][col] for row in range(self.size)]) == 15 and 0 not in [self.board[row][col] for row in range(self.size)]:
                 return True
 
         return False
@@ -135,15 +140,12 @@ class NumTicTacToe:
 if __name__ == "__main__":
     # TEST EACH METHOD THOROUGHLY HERE
     # suggested tests are provided as comments, but more tests may be required
-    
     # start by creating empty board and checking the contents of the board attribute
     myBoard = NumTicTacToe()
     print('Contents of board attribute when object first created:')
     print(myBoard.board)
-    
     # does the empty board display properly?
     myBoard.drawBoard()
-
     # assign a number to an empty square and display
     print("assign a number to an empty square and display")
     print(myBoard.update(0, 0, 1))
@@ -175,7 +177,6 @@ if __name__ == "__main__":
     for row in range(len(myBoard.board)):
         for col in range(len(myBoard.board[row])):
             myBoard.board[row][col] = row * 3 + col + 1
-
     myBoard.drawBoard()
     print(myBoard.boardFull())
     
