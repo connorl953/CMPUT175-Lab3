@@ -14,7 +14,7 @@ class NumTicTacToe:
         Returns: None
         '''       
         self.board = [] # list of lists, where each internal list represents a row
-        self.size = 10 # number of columns and rows of board
+        self.size = 3 # number of columns and rows of board
         
         # populate the empty squares in board with 0
         for i in range(self.size):
@@ -48,15 +48,18 @@ class NumTicTacToe:
         print()
 
         for i in range(self.size):
-            string = [f"{i}".ljust(2) + f"{self.board[i][0]}".replace(str(0), ' ').center(3)]
-            for j in range(self.size-1):
-                j+=1
-                string += "|"+ f"{self.board[i][j]}".center(3)
+            firstelement = f"{self.board[i][0]}"
+            if self.board[i][0] == 0:
+                firstelement = firstelement.replace(str(0), ' ')
+            string = [f"{i}".ljust(2 if self.size < 10 else 3) + firstelement.center(3)]
+            for j in range(1, self.size):
+                newelement = "|"+ f"{self.board[i][j]}".center(3)
                 if self.board[i][j] == 0:
-                    string[j].replace(str(0), ' ')
+                    newelement = newelement.replace(str(0), ' ')
+                string += newelement
+
             print("".join(string))
             # Account for dynamic size horizontally
-
             if i < self.size - 1:
                 print("  " + "----" * (self.size))
 
