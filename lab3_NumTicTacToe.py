@@ -14,7 +14,7 @@ class NumTicTacToe:
         Returns: None
         '''       
         self.board = [] # list of lists, where each internal list represents a row
-        self.size = 3   # number of columns and rows of board
+        self.size = 10 # number of columns and rows of board
         
         # populate the empty squares in board with 0
         for i in range(self.size):
@@ -41,11 +41,24 @@ class NumTicTacToe:
         # 2    |   |
 
 
-        print("   0   1   2  ")
+        # print the column numbers
+        print("   ", end="")
         for i in range(self.size):
-            print(f"{i} " + f" {self.board[i][0]} | {self.board[i][1]} | {self.board[i][2]}  ".replace(str(0), ' '))
+            print(f"{i}".ljust(4), end="")
+        print()
+
+        for i in range(self.size):
+            string = [f"{i}".ljust(2) + f"{self.board[i][0]}".replace(str(0), ' ').center(3)]
+            for j in range(self.size-1):
+                j+=1
+                string += "|"+ f"{self.board[i][j]}".center(3)
+                if self.board[i][j] == 0:
+                    string[j].replace(str(0), ' ')
+            print("".join(string))
+            # Account for dynamic size horizontally
+
             if i < self.size - 1:
-                print("  ----------- ")
+                print("  " + "----" * (self.size))
 
 
 
@@ -111,28 +124,33 @@ class NumTicTacToe:
         '''
         # TO DO: delete pass and complete method
 
+        # check for a 0 in any candidate before checking for a winner
         # check if any row adds up to 15
         # check if any column adds up to 15
         # check if either diagonal adds up to 15
 
+        diagonal1 = (self.board[i][i] for i in range(self.size))
+        if 0 not in (self.board[i][i] for i in range(self.size)):
+            if sum(diagonal1) == 15:
+                # checks if the sum of the diagonal from top left to bottom right is 15
+                return True
 
-
-
-        if sum([self.board[i][i] for i in range(self.size)]) == 15 and 0 not in (self.board[i][i] for i in range(self.size)):
-            # checks if the sum of the diagonal from top left to bottom right is 15
-            return True
-
-        if sum([self.board[i][self.size - i - 1] for i in range(self.size)]) == 15 and 0 not in (self.board[i][self.size - i - 1] for i in range(self.size)):
-            # checks if the sum of the diagonal from top right to bottom left is 15
-            return True
+        diagonal2 = (self.board[i][self.size - i - 1] for i in range(self.size))
+        if 0 not in diagonal2:
+            if sum(diagonal2) == 15:
+                # checks if the sum of the diagonal from top right to bottom left is 15
+                return True
 
         for row in self.board:
-            if sum(row) == 15 and 0 not in row:
-                return True
+            if 0 not in row:
+                if sum(row) == 15:
+                    return True
 
         for col in range(self.size):
-            if sum([self.board[row][col] for row in range(self.size)]) == 15 and 0 not in [self.board[row][col] for row in range(self.size)]:
-                return True
+            column = [self.board[row][col] for row in range(self.size)]
+            if 0 not in column:
+                if sum(column) == 15:
+                    return True
 
         return False
      
@@ -174,9 +192,9 @@ if __name__ == "__main__":
     print(myBoard.boardFull())
     # write additional tests, as needed
     print("Make board full, check if board is full")
-    for row in range(len(myBoard.board)):
-        for col in range(len(myBoard.board[row])):
-            myBoard.board[row][col] = row * 3 + col + 1
+    for row in range(myBoard.size):
+        for col in range(myBoard.size):
+            myBoard.board[row][col] = (row * myBoard.size) + col + 1
     myBoard.drawBoard()
     print(myBoard.boardFull())
     
